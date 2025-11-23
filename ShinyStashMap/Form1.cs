@@ -5,6 +5,7 @@ using System.Text.RegularExpressions;
 using Point = TransformScale;
 namespace ShinyStashMap;
 
+// Thanks kwsch for like 75% of this code.
 public partial class Form1 : Form
 {
     private ISaveFileProvider SAV { get; }
@@ -29,18 +30,17 @@ public partial class Form1 : Form
             ShinyEntities.Add((new PA9(ShinyBlock[(i+0x8)..(i+0x8 + 0x158)].ToArray()), ShinyBlock[i..(i + 8)].ToArray()));
             i += 0x1F0;
         }
-        setPBs();
+        SetPBs();
     }
-    public static ushort test = 0;
-    public void setPBs()
+    public void SetPBs()
     {
         for (int i = 0; i < ShinyEntities.Count; i++)
         {
             ((PictureBox)groupBox1.Controls[i]).Image = ShinyEntities[i].Item1.Sprite();
-            ((PictureBox)groupBox1.Controls[i]).Click += (s, _) => renderpoint(groupBox1.Controls.IndexOf((Control)s));
+            ((PictureBox)groupBox1.Controls[i]).Click += (s, _) => Renderpoint(groupBox1.Controls.IndexOf((Control)s));
         }
     }
-    public void renderpoint(int index)
+    public void Renderpoint(int index)
     {
         var hash = BitConverter.ToString(ShinyEntities[index].Item2.Reverse().ToArray()).Replace("-", "");
         var coords = Spawners[hash].Item2;
@@ -57,7 +57,6 @@ public partial class Form1 : Form
     {
         foreach (var pt in coords)
         {
-            const int length = (10 * 2) + 1; // Diameter of the circle
             x = (float)tr.ConvertX(pt.X) - (100 / 2.0f);
             y = (float)tr.ConvertZ(pt.Z) - (100 / 2.0f);
             gr.FillEllipse(brush, x, y, 100, 100);
