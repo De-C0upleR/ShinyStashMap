@@ -1,6 +1,8 @@
 using PKHeX.Core;
 using PKHeX.Drawing.PokeSprite;
 using ShinyStashMap.Properties;
+using System.ComponentModel;
+using System.Net.Sockets;
 using System.Text.RegularExpressions;
 using Point = TransformScale;
 namespace ShinyStashMap;
@@ -11,6 +13,7 @@ public partial class Form1 : Form
     private ISaveFileProvider SAV { get; }
     public Dictionary<string, (byte[], float[])> Spawners = [];
     public List<(PA9, byte[])> ShinyEntities = [];
+    public bot Bot = new();
     public Form1(ISaveFileProvider sav)
     {
         SAV = sav;
@@ -23,11 +26,13 @@ public partial class Form1 : Form
     }
     public void GetShinyBlock()
     {
+        if (ShinyEntities.Count > 0)
+            ShinyEntities.Clear();
         var ShinyBlock = ((SAV9ZA)SAV.SAV).Accessor.GetBlock(0xF3A8569D).Data;
         int i = 0;
-        while (BitConverter.ToString(ShinyBlock[i..(i+8)].ToArray()) != "45262284E49CF2CB" && (i+0x1F0)<=ShinyBlock.Length)
+        while (BitConverter.ToString(ShinyBlock[i..(i + 8)].ToArray()) != "45262284E49CF2CB" && (i + 0x1F0) <= ShinyBlock.Length)
         {
-            ShinyEntities.Add((new PA9(ShinyBlock[(i+0x8)..(i+0x8 + 0x158)].ToArray()), ShinyBlock[i..(i + 8)].ToArray()));
+            ShinyEntities.Add((new PA9(ShinyBlock[(i + 0x8)..(i + 0x8 + 0x158)].ToArray()), ShinyBlock[i..(i + 8)].ToArray()));
             i += 0x1F0;
         }
         SetPBs();
@@ -49,7 +54,7 @@ public partial class Form1 : Form
         pictureBox1.BackgroundImage = img;
         using var brush = new SolidBrush(Color.Red);
         RenderPoints(gr, TransformLumiose, brush, new Point(coords[0], coords[2]));
-        
+
     }
     public static float x;
     public static float y;
@@ -62,7 +67,7 @@ public partial class Form1 : Form
             gr.FillEllipse(brush, x, y, 100, 100);
         }
     }
-    static Dictionary<string, (byte[],float[])> ParseToDictionary(IEnumerable<string> lines)
+    static Dictionary<string, (byte[], float[])> ParseToDictionary(IEnumerable<string> lines)
     {
         var hashRe = new Regex(@"([A-Fa-f0-9]{16})");
         var v3fRe = new Regex(@"V3f\((-?\d+\.?\d*),\s*(-?\d+\.?\d*),\s*(-?\d+\.?\d*)\)");
@@ -101,5 +106,26 @@ public partial class Form1 : Form
        Dir: new(-1.0, -1.0),
        Offset: new(500.0, 500.0)
    );
+
+    private void button1_Click(object sender, EventArgs e)
+    {
+        Bot.Connect(textBox1.Text, 6000);
+        button1.Enabled = false;
+        button1.Text = "Connected";
+        ReadShinyStashLive();
+    }
+    private void ReadShinyStashLive()
+    {
+        var ShinyBlock = ((SAV9ZA)SAV.SAV).Accessor.GetBlock(0xF3A8569D);
+        var newblock = Bot.ReadBytes([..ShinyStashPointer], ShinyBlock.Data.Length);
+        ShinyBlock.ChangeData(newblock);
+        GetShinyBlock();
+    }
+    public static IReadOnlyList<long> ShinyStashPointer { get; } = [0x5F0C250, 0x120, 0x168, 0x0];
+    protected override void OnClosing(CancelEventArgs e)
+    {
+        Bot.Disconnect();
+        base.OnClosing(e);
+    }
 }
 

@@ -40,6 +40,9 @@
             pictureBox10 = new PictureBox();
             pictureBox11 = new PictureBox();
             groupBox1 = new GroupBox();
+            button1 = new Button();
+            textBox1 = new TextBox();
+            label1 = new Label();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox3).BeginInit();
@@ -159,20 +162,50 @@
             groupBox1.Controls.Add(pictureBox4);
             groupBox1.Location = new Point(428, 12);
             groupBox1.Name = "groupBox1";
-            groupBox1.Size = new Size(200, 392);
+            groupBox1.Size = new Size(167, 392);
             groupBox1.TabIndex = 11;
             groupBox1.TabStop = false;
-            groupBox1.Text = "groupBox1";
+            groupBox1.Text = "Stored Shiny Entities";
+            // 
+            // button1
+            // 
+            button1.Location = new Point(632, 63);
+            button1.Name = "button1";
+            button1.Size = new Size(134, 47);
+            button1.TabIndex = 12;
+            button1.Text = "Connect";
+            button1.UseVisualStyleBackColor = true;
+            button1.Click += button1_Click;
+            // 
+            // textBox1
+            // 
+            textBox1.Location = new Point(648, 34);
+            textBox1.Name = "textBox1";
+            textBox1.Size = new Size(100, 23);
+            textBox1.TabIndex = 13;
+            textBox1.Text = "192.168.1.152";
+            // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Location = new Point(622, 37);
+            label1.Name = "label1";
+            label1.Size = new Size(20, 15);
+            label1.TabIndex = 14;
+            label1.Text = "IP:";
             // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
+            Controls.Add(label1);
+            Controls.Add(textBox1);
+            Controls.Add(button1);
             Controls.Add(groupBox1);
             Controls.Add(pictureBox1);
             Name = "Form1";
-            Text = "Form1";
+            Text = "Shiny Stash Map";
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox3).EndInit();
@@ -186,6 +219,7 @@
             ((System.ComponentModel.ISupportInitialize)pictureBox11).EndInit();
             groupBox1.ResumeLayout(false);
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
@@ -202,5 +236,8 @@
         private PictureBox pictureBox10;
         private PictureBox pictureBox11;
         private GroupBox groupBox1;
+        private Button button1;
+        private TextBox textBox1;
+        private Label label1;
     }
 }
