@@ -131,7 +131,7 @@ public partial class Form1 : Form
             using var gr = Graphics.FromImage(img);
             pictureBox1.BackgroundImage = img;
             using var brush = new SolidBrush(Color.Red);
-            RenderPoints(gr, TransformLysandreLabs, brush, new Point(coords[0], coords[2]));
+            RenderPoints(gr, TransformSewersCh5, brush, new Point(coords[0], coords[2]));
         }
         else if (SpawnersSewersB.TryGetValue(hash, out (byte[], float[]) value4))
         {
@@ -140,7 +140,7 @@ public partial class Form1 : Form
             using var gr = Graphics.FromImage(img);
             pictureBox1.BackgroundImage = img;
             using var brush = new SolidBrush(Color.Red);
-            RenderPoints(gr, TransformLysandreLabs, brush, new Point(coords[0], coords[2]));
+            RenderPoints(gr, TransformSewersCh6, brush, new Point(coords[0], coords[2]));
         }
 
 
