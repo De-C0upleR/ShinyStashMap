@@ -8,7 +8,7 @@ To use: Add the .dll to your `plugins` folder next to PKHeX
 # OPTIONAL FEATURES:
 Click connect to read the block Live. 
 
-Right click on Pokemon's sprite to teleport to the Pokemon (use at your own risk).
+~~Right click on Pokemon's sprite to teleport to the Pokemon (use at your own risk).~~ Temporarily Removed.
 
 <img width="804" height="486" alt="image" src="https://github.com/user-attachments/assets/30e14f4b-95d5-495c-8d1d-37502bceaada" />
 
